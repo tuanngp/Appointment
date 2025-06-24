@@ -1,0 +1,658 @@
+{
+	"info": {
+		"_postman_id": "008e4b6a-de4d-443a-a367-4cde5c2b3f78",
+		"name": "OpenAPI definition",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34364612"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "appointments",
+					"item": [
+						{
+							"name": "get Appointments",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/appointments?startDate=1950-12-23T11:36:29&endDate=1999-12-23T11:36:29",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"appointments"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "Active",
+											"disabled": true
+										},
+										{
+											"key": "customerId",
+											"value": "-7106728",
+											"disabled": true
+										},
+										{
+											"key": "startDate",
+											"value": "1950-12-23T11:36:29"
+										},
+										{
+											"key": "endDate",
+											"value": "1999-12-23T11:36:29"
+										},
+										{
+											"key": "page",
+											"value": "75200180",
+											"description": "(Required) ",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "16773201",
+											"description": "(Required) ",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "[\"co\",\"ex\"]",
+											"description": "(Required) ",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/appointments?status=Deleted&customerId=-7106728&startDate=1983-12-23T11:36:29.826Z&endDate=1983-12-23T11:36:29.826Z&page=75200180&size=16773201&sort=co,ex",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"appointments"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "Deleted"
+												},
+												{
+													"key": "customerId",
+													"value": "-7106728"
+												},
+												{
+													"key": "startDate",
+													"value": "1983-12-23T11:36:29.826Z"
+												},
+												{
+													"key": "endDate",
+													"value": "1983-12-23T11:36:29.826Z"
+												},
+												{
+													"key": "page",
+													"value": "75200180"
+												},
+												{
+													"key": "size",
+													"value": "16773201"
+												},
+												{
+													"key": "sort",
+													"value": "co,ex"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"totalPages\": 31855926,\n  \"totalElements\": 74757118,\n  \"size\": 19249933,\n  \"content\": [\n    {\n      \"dueDateTime\": \"1951-07-02T08:04:21.639Z\",\n      \"id\": -46948199,\n      \"title\": \"occaecat ex pariatur tempor\",\n      \"note\": \"minim\",\n      \"priority\": -89881530,\n      \"durationMin\": -35414238,\n      \"custId\": 29763864,\n      \"custNo\": \"occae\",\n      \"custFullName\": \"qui dolor\",\n      \"contactTitle\": \"\",\n      \"contactMobile\": \"fugiat ut\",\n      \"contactFullName\": \"ad\",\n      \"numOfAttendance\": 66442258,\n      \"attendanceContactIds\": \"ut deserunt magna amet ut\",\n      \"dealId\": 11334537,\n      \"dealName\": \"nisi ex exercitation ad\",\n      \"dealValue\": -58218424.0093099,\n      \"status\": \"Inactive\",\n      \"calendarId\": 85491789,\n      \"addrBookId\": 89635813\n    },\n    {\n      \"dueDateTime\": \"2005-06-28T12:03:07.625Z\",\n      \"id\": -48522553,\n      \"title\": \"laboris ex adipisicing occaecat Lorem\",\n      \"note\": \"velit Excepteur enim ut voluptate\",\n      \"priority\": 45030751,\n      \"durationMin\": -70022824,\n      \"custId\": 60634558,\n      \"custNo\": \"aliqu\",\n      \"custFullName\": \"in proident commodo\",\n      \"contactTitle\": \"non\",\n      \"contactMobile\": \"dolore ali\",\n      \"contactFullName\": \"aliquip fugiat\",\n      \"numOfAttendance\": -7715912,\n      \"attendanceContactIds\": \"consectetur minim dolor qui\",\n      \"dealId\": 42210833,\n      \"dealName\": \"velit sint reprehenderit nulla\",\n      \"dealValue\": 92594461.83521542,\n      \"status\": \"Inactive\",\n      \"calendarId\": 91249247,\n      \"addrBookId\": -65491466\n    }\n  ],\n  \"number\": 52732437,\n  \"sort\": {\n    \"empty\": false,\n    \"sorted\": true,\n    \"unsorted\": false\n  },\n  \"numberOfElements\": 93044500,\n  \"first\": false,\n  \"last\": true,\n  \"pageable\": {\n    \"offset\": 37425946,\n    \"sort\": {\n      \"empty\": true,\n      \"sorted\": true,\n      \"unsorted\": true\n    },\n    \"paged\": true,\n    \"pageNumber\": -17238217,\n    \"pageSize\": 4835192,\n    \"unpaged\": false\n  },\n  \"empty\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "create Appointment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"dueDateTime\": \"1992-05-17 21:18:16\",\n  \"title\": \"voluptate ips\",\n  \"note\": \"incididunt\",\n  \"priority\": 1,\n  \"durationMin\": 2,\n  \"custId\": 1,\n  \"custNo\": \"sunt te\",\n  \"custFullName\": \"proident\",\n  \"contactTitle\": \"cupidatat \",\n  \"contactMobile\": \"sed dolor\",\n  \"contactFullName\": \"est dolor sit sint\",\n  \"numOfAttendance\": 123,\n  \"attendanceContactIds\": \"sint quis pariatur id Lorem\",\n  \"dealId\": -35397689,\n  \"dealName\": \"dolore velit minim\",\n  \"dealValue\": 20414,\n  \"status\": \"Active\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/appointments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"appointments"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"dueDateTime\": \"1992-05-17T21:18:16.199Z\",\n  \"id\": 4130100,\n  \"title\": \"voluptate ips\",\n  \"note\": \"incididunt\",\n  \"priority\": -5826186,\n  \"durationMin\": -62714116,\n  \"custId\": 42309145,\n  \"custNo\": \"sunt te\",\n  \"custFullName\": \"proident\",\n  \"contactTitle\": \"cupidatat \",\n  \"contactMobile\": \"sed dolor\",\n  \"contactFullName\": \"est dolor sit sint\",\n  \"numOfAttendance\": -75246745,\n  \"attendanceContactIds\": \"sint quis pariatur id Lorem\",\n  \"dealId\": -35397689,\n  \"dealName\": \"dolore velit minim\",\n  \"dealValue\": -42153915.401420414,\n  \"status\": \"Active\",\n  \"calendarId\": -78023931,\n  \"addrBookId\": 41564240\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/appointments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"appointments"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"dueDateTime\": \"1992-05-17T21:18:16.199Z\",\n  \"id\": 4130100,\n  \"title\": \"voluptate ips\",\n  \"note\": \"incididunt\",\n  \"priority\": -5826186,\n  \"durationMin\": -62714116,\n  \"custId\": 42309145,\n  \"custNo\": \"sunt te\",\n  \"custFullName\": \"proident\",\n  \"contactTitle\": \"cupidatat \",\n  \"contactMobile\": \"sed dolor\",\n  \"contactFullName\": \"est dolor sit sint\",\n  \"numOfAttendance\": -75246745,\n  \"attendanceContactIds\": \"sint quis pariatur id Lorem\",\n  \"dealId\": -35397689,\n  \"dealName\": \"dolore velit minim\",\n  \"dealValue\": -42153915.401420414,\n  \"status\": \"Active\",\n  \"calendarId\": -78023931,\n  \"addrBookId\": 41564240\n}"
+								}
+							]
+						},
+						{
+							"name": "update Appointment Status",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"Active\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/appointments/:id/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"appointments",
+										":id",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"status\": \"Inactive\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/appointments/:id/status",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"appointments",
+												":id",
+												"status"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-7106728",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"dueDateTime\": \"1992-05-17T21:18:16.199Z\",\n  \"id\": 4130100,\n  \"title\": \"voluptate ips\",\n  \"note\": \"incididunt\",\n  \"priority\": -5826186,\n  \"durationMin\": -62714116,\n  \"custId\": 42309145,\n  \"custNo\": \"sunt te\",\n  \"custFullName\": \"proident\",\n  \"contactTitle\": \"cupidatat \",\n  \"contactMobile\": \"sed dolor\",\n  \"contactFullName\": \"est dolor sit sint\",\n  \"numOfAttendance\": -75246745,\n  \"attendanceContactIds\": \"sint quis pariatur id Lorem\",\n  \"dealId\": -35397689,\n  \"dealName\": \"dolore velit minim\",\n  \"dealValue\": -42153915.401420414,\n  \"status\": \"Active\",\n  \"calendarId\": -78023931,\n  \"addrBookId\": 41564240\n}"
+								}
+							]
+						},
+						{
+							"name": "get Appointment History Last30Days",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/appointments/history/last30days?status=Active",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"appointments",
+										"history",
+										"last30days"
+									],
+									"query": [
+										{
+											"key": "customerId",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "Active"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/appointments/history/last30days?customerId=-7106728&status=ex consequat enim",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"appointments",
+												"history",
+												"last30days"
+											],
+											"query": [
+												{
+													"key": "customerId",
+													"value": "-7106728"
+												},
+												{
+													"key": "status",
+													"value": "ex consequat enim"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"dueDateTime\": \"1984-06-12T22:04:55.393Z\",\n    \"id\": -23785034,\n    \"title\": \"Ut\",\n    \"note\": \"occaecat reprehenderit consectetur irure in\",\n    \"priority\": -27330830,\n    \"durationMin\": -57410728,\n    \"custId\": 87411407,\n    \"custNo\": \"esse non cillum Lorem ir\",\n    \"custFullName\": \"commodo velit dolor ullamco anim\",\n    \"contactTitle\": \"dolore ut\",\n    \"contactMobile\": \"dolor et qu\",\n    \"contactFullName\": \"nost\",\n    \"numOfAttendance\": 72618188,\n    \"attendanceContactIds\": \"nostrud sint et minim\",\n    \"dealId\": -79862686,\n    \"dealName\": \"Ut sunt incididunt\",\n    \"dealValue\": -20075752.626838163,\n    \"status\": \"Completed\",\n    \"calendarId\": -42193503,\n    \"addrBookId\": -19145981\n  },\n  {\n    \"dueDateTime\": \"1997-07-27T04:33:07.574Z\",\n    \"id\": 55536610,\n    \"title\": \"do ex occaecat\",\n    \"note\": \"dolore quis\",\n    \"priority\": -23916158,\n    \"durationMin\": 12923911,\n    \"custId\": -5773055,\n    \"custNo\": \"dolor dolore incidi\",\n    \"custFullName\": \"irure reprehenderit do\",\n    \"contactTitle\": \"voluptate in oc\",\n    \"contactMobile\": \"exercitation aute v\",\n    \"contactFullName\": \"irure non\",\n    \"numOfAttendance\": -8842198,\n    \"attendanceContactIds\": \"irure enim\",\n    \"dealId\": 55534622,\n    \"dealName\": \"irure est esse dolore labore\",\n    \"dealValue\": 84628094.98970976,\n    \"status\": \"Active\",\n    \"calendarId\": 30421760,\n    \"addrBookId\": 37560383\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "reminders",
+					"item": [
+						{
+							"name": "get Upcoming Payment Reminders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/reminders/payments?specificDate=2025-07-01",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"reminders",
+										"payments"
+									],
+									"query": [
+										{
+											"key": "specificDate",
+											"value": "2025-07-01",
+											"description": "(Required) "
+										},
+										{
+											"key": "customerId",
+											"value": "-7106728",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/reminders/payments?specificDate=1948-09-29&customerId=-7106728",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"reminders",
+												"payments"
+											],
+											"query": [
+												{
+													"key": "specificDate",
+													"value": "1948-09-29"
+												},
+												{
+													"key": "customerId",
+													"value": "-7106728"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"type\": \"Birthday\",\n    \"title\": \"elit e\",\n    \"description\": \"minim in deserunt\",\n    \"reminderDateTime\": \"1998-09-09T09:29:46.695Z\",\n    \"customerName\": \"sed consequat\",\n    \"customerMobile\": \"voluptate incididunt dolor adipisicing quis\",\n    \"referenceId\": -90340437\n  },\n  {\n    \"type\": \"Payment\",\n    \"title\": \"cillum esse velit ullamco\",\n    \"description\": \"consectetur minim laboris\",\n    \"reminderDateTime\": \"1959-02-16T09:56:10.932Z\",\n    \"customerName\": \"veniam ullamco\",\n    \"customerMobile\": \"in iru\",\n    \"referenceId\": -89512073\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "get Birthday Reminders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/reminders/birthdays?specificDate=2025-06-25",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"reminders",
+										"birthdays"
+									],
+									"query": [
+										{
+											"key": "customerId",
+											"value": "-7106728",
+											"disabled": true
+										},
+										{
+											"key": "specificDate",
+											"value": "2025-06-25"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/reminders/calendar/birthdays?specificDate=1948-09-29&customerId=-7106728",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"reminders",
+												"calendar",
+												"birthdays"
+											],
+											"query": [
+												{
+													"key": "specificDate",
+													"value": "1948-09-29"
+												},
+												{
+													"key": "customerId",
+													"value": "-7106728"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"type\": \"Birthday\",\n    \"title\": \"elit e\",\n    \"description\": \"minim in deserunt\",\n    \"reminderDateTime\": \"1998-09-09T09:29:46.695Z\",\n    \"customerName\": \"sed consequat\",\n    \"customerMobile\": \"voluptate incididunt dolor adipisicing quis\",\n    \"referenceId\": -90340437\n  },\n  {\n    \"type\": \"Payment\",\n    \"title\": \"cillum esse velit ullamco\",\n    \"description\": \"consectetur minim laboris\",\n    \"reminderDateTime\": \"1959-02-16T09:56:10.932Z\",\n    \"customerName\": \"veniam ullamco\",\n    \"customerMobile\": \"in iru\",\n    \"referenceId\": -89512073\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "get Upcoming Appointment Reminders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/reminders/appointments?specificDate=1992-05-17",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"reminders",
+										"appointments"
+									],
+									"query": [
+										{
+											"key": "customerId",
+											"value": "-7106728",
+											"disabled": true
+										},
+										{
+											"key": "specificDate",
+											"value": "1992-05-17"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/appointments/reminders/appointments?specificDate=1948-09-29&customerId=-7106728",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"appointments",
+												"reminders",
+												"appointments"
+											],
+											"query": [
+												{
+													"key": "specificDate",
+													"value": "1948-09-29"
+												},
+												{
+													"key": "customerId",
+													"value": "-7106728"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"type\": \"Birthday\",\n    \"title\": \"elit e\",\n    \"description\": \"minim in deserunt\",\n    \"reminderDateTime\": \"1998-09-09T09:29:46.695Z\",\n    \"customerName\": \"sed consequat\",\n    \"customerMobile\": \"voluptate incididunt dolor adipisicing quis\",\n    \"referenceId\": -90340437\n  },\n  {\n    \"type\": \"Payment\",\n    \"title\": \"cillum esse velit ullamco\",\n    \"description\": \"consectetur minim laboris\",\n    \"reminderDateTime\": \"1959-02-16T09:56:10.932Z\",\n    \"customerName\": \"veniam ullamco\",\n    \"customerMobile\": \"in iru\",\n    \"referenceId\": -89512073\n  }\n]"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
