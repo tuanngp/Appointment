@@ -1,13 +1,12 @@
 package com.appointment.service;
 
-import com.appointment.dto.AppointmentDto;
-import com.appointment.dto.ReminderDetailsDto;
+import com.appointment.dto.request.CreateAppointmentRequest;
+import com.appointment.dto.response.AppointmentResponse;
 import com.appointment.entity.SaAppointment;
 import com.appointment.entity.SaCalendar;
 import com.appointment.enums.AppointmentStatus;
 import com.appointment.enums.CalendarType;
 import com.appointment.enums.CalenderStatus;
-import com.appointment.enums.ReminderType;
 import com.appointment.exception.ResourceNotFoundException;
 import com.appointment.repository.SaAppointmentRepository;
 import com.appointment.repository.SaCalendarRepository;
@@ -40,15 +39,15 @@ public class AppointmentService {
     }
 
     @Transactional
-    public AppointmentDto createAppointment(AppointmentDto appointmentDto) {
-        SaAppointment appointment = modelMapper.map(appointmentDto, SaAppointment.class);
+    public AppointmentResponse createAppointment(CreateAppointmentRequest request) {
+        SaAppointment appointment = modelMapper.map(request, SaAppointment.class);
 
         appointment.setStatus(AppointmentStatus.Active);
 
         SaCalendar calendar = null;
-        if (appointmentDto.getCalendarId() != null) {
-            calendar = calendarRepository.findById(appointmentDto.getCalendarId())
-                    .orElseThrow(() -> new RuntimeException("Calendar not found with ID: " + appointmentDto.getCalendarId()));
+        if (request.getCalendarId() != null) {
+            calendar = calendarRepository.findById(request.getCalendarId())
+                    .orElseThrow(() -> new RuntimeException("Calendar not found with ID: " + request.getCalendarId()));
         } else {
             calendar = new SaCalendar();
             calendar.setType(CalendarType.APPOINTMENT);
@@ -62,10 +61,10 @@ public class AppointmentService {
         appointment.setCalendar(calendar);
 
         SaAppointment savedAppointment = appointmentRepository.save(appointment);
-        return modelMapper.map(savedAppointment, AppointmentDto.class);
+        return modelMapper.map(savedAppointment, AppointmentResponse.class);
     }
 
-    public Page<AppointmentDto> getAppointments(AppointmentStatus status, Long customerId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+    public Page<AppointmentResponse> getAppointments(AppointmentStatus status, Long customerId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         Specification<SaAppointment> spec = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -86,11 +85,11 @@ public class AppointmentService {
         };
 
         Page<SaAppointment> appointments = appointmentRepository.findAll(spec, pageable);
-        return appointments.map(sa -> modelMapper.map(sa, AppointmentDto.class));
+        return appointments.map(sa -> modelMapper.map(sa, AppointmentResponse.class));
     }
 
     @Transactional
-    public AppointmentDto updateAppointmentStatus(Long id, AppointmentStatus newStatus) {
+    public AppointmentResponse updateAppointmentStatus(Long id, AppointmentStatus newStatus) {
         SaAppointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with ID: " + id));
 
@@ -99,10 +98,10 @@ public class AppointmentService {
         appointment.setUpdatedBy(1L); // Replace with actual user ID
 
         SaAppointment updatedAppointment = appointmentRepository.save(appointment);
-        return modelMapper.map(updatedAppointment, AppointmentDto.class);
+        return modelMapper.map(updatedAppointment, AppointmentResponse.class);
     }
 
-    public List<AppointmentDto> getAppointmentHistoryLast30Days(Long customerId, String status) {
+    public List<AppointmentResponse> getAppointmentHistoryLast30Days(Long customerId, String status) {
         LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
         LocalDateTime now = LocalDateTime.now();
 
@@ -129,21 +128,7 @@ public class AppointmentService {
 
         List<SaAppointment> history = appointmentRepository.findAll(spec);
         return history.stream()
-                .map(sa -> modelMapper.map(sa, AppointmentDto.class))
+                .map(sa -> modelMapper.map(sa, AppointmentResponse.class))
                 .collect(Collectors.toList());
-    }
-
-    private ReminderDetailsDto mapToReminderDetailsDto(SaAppointment appointment) {
-        ReminderDetailsDto dto = new ReminderDetailsDto();
-        dto.setType(ReminderType.Appointment);
-        dto.setTitle(appointment.getTitle());
-        dto.setDescription(appointment.getNote());
-        dto.setReminderDateTime(appointment.getDueDateTime());
-        dto.setCustomerName(appointment.getCustFullName());
-        dto.setCustomerMobile(appointment.getContactMobile());
-        dto.setReferenceId(appointment.getId());
-        dto.setNote(appointment.getNote());
-        dto.setStatus(appointment.getStatus());
-        return dto;
     }
 }

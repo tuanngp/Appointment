@@ -1,6 +1,6 @@
 package com.appointment.service;
 
-import com.appointment.dto.ReminderDetailsDto;
+import com.appointment.dto.response.ReminderResponse;
 import com.appointment.entity.SaAppointment;
 import com.appointment.entity.SaCalendar;
 import com.appointment.entity.SaCustRemind;
@@ -34,7 +34,7 @@ public class CalendarService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    public List<ReminderDetailsDto> getUpcomingAppointmentReminders(LocalDate specificDate, Long customerId) {
+    public List<ReminderResponse> getUpcomingAppointmentReminders(LocalDate specificDate, Long customerId) {
         LocalDateTime startOfDay = specificDate.atStartOfDay();
         LocalDateTime endOfDay = specificDate.atTime(23, 59, 59);
 
@@ -46,12 +46,12 @@ public class CalendarService {
         }
 
         return appointments.stream()
-                .map(this::mapToReminderDetailsDto)
+                .map(this::mapToReminderResponse)
                 .collect(Collectors.toList());
     }
 
-    public List<ReminderDetailsDto> getUpcomingBirthdays(LocalDate specificDate, Long customerId) {
-        List<ReminderDetailsDto> birthdayReminders = new ArrayList<>();
+    public List<ReminderResponse> getUpcomingBirthdays(LocalDate specificDate, Long customerId) {
+        List<ReminderResponse> birthdayReminders = new ArrayList<>();
         List<SaCalendar> birthdaysOnDate;
 
         if (customerId != null) {
@@ -63,7 +63,7 @@ public class CalendarService {
         }
 
         for (SaCalendar birthdayEntry : birthdaysOnDate) {
-            ReminderDetailsDto dto = new ReminderDetailsDto();
+            ReminderResponse dto = new ReminderResponse();
             dto.setType(ReminderType.Birthday);
             dto.setTitle("Birthday of " + (birthdayEntry.getTitle() != null ? birthdayEntry.getTitle() : "Customer"));
             dto.setDescription("Wish them a happy birthday!");
@@ -75,12 +75,8 @@ public class CalendarService {
                         .ifPresentOrElse(appointment -> {
                             dto.setCustomerName(appointment.getCustFullName());
                             dto.setCustomerMobile(appointment.getContactMobile());
-                        }, () -> {
-                            custRemindRepository.findFirstByCustIdOrderByIdDesc(birthdayEntry.getCustId())
-                                    .ifPresent(custRemind -> {
-                                        dto.setCustomerName(custRemind.getCustFullName());
-                                    });
-                        });
+                        }, () -> custRemindRepository.findFirstByCustIdOrderByIdDesc(birthdayEntry.getCustId())
+                                .ifPresent(custRemind -> dto.setCustomerName(custRemind.getCustFullName())));
             }
 
             birthdayReminders.add(dto);
@@ -88,7 +84,7 @@ public class CalendarService {
         return birthdayReminders;
     }
 
-    public List<ReminderDetailsDto> getUpcomingPaymentReminders(LocalDate specificDate, Long customerId) {
+    public List<ReminderResponse> getUpcomingPaymentReminders(LocalDate specificDate, Long customerId) {
         List<SaCustRemind> reminders;
         if (customerId != null) {
             reminders = custRemindRepository.findByDueDateAndStatusAndCustId(specificDate, CustRemindType.Active, customerId);
@@ -97,12 +93,12 @@ public class CalendarService {
         }
 
         return reminders.stream()
-                .map(this::mapToReminderDetailsDto)
+                .map(this::mapToReminderResponse)
                 .collect(Collectors.toList());
     }
 
-    private ReminderDetailsDto mapToReminderDetailsDto(SaCustRemind custRemind) {
-        ReminderDetailsDto dto = new ReminderDetailsDto();
+    private ReminderResponse mapToReminderResponse(SaCustRemind custRemind) {
+        ReminderResponse dto = new ReminderResponse();
         dto.setType(ReminderType.Payment);
         dto.setTitle("Payment Due: " + custRemind.getPaymentValue());
         dto.setDescription("Payment for product ID: " + custRemind.getProductId() + " is due.");
@@ -112,8 +108,8 @@ public class CalendarService {
         return dto;
     }
 
-    private ReminderDetailsDto mapToReminderDetailsDto(SaAppointment appointment) {
-        ReminderDetailsDto dto = new ReminderDetailsDto();
+    private ReminderResponse mapToReminderResponse(SaAppointment appointment) {
+        ReminderResponse dto = new ReminderResponse();
         dto.setType(ReminderType.Appointment);
         dto.setTitle(appointment.getTitle());
         dto.setDescription(appointment.getNote());

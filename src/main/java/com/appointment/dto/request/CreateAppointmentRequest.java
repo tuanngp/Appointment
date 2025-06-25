@@ -1,6 +1,5 @@
-package com.appointment.dto;
+package com.appointment.dto.request;
 
-import com.appointment.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -12,8 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class AppointmentDto {
-    private Long id;
+public class CreateAppointmentRequest {
 
     @NotBlank(message = "Title cannot be blank")
     @Size(max = 250, message = "Title must be at most 250 characters")
@@ -56,7 +54,6 @@ public class AppointmentDto {
     private Long dealId;
     private String dealName;
     private BigDecimal dealValue;
-    private AppointmentStatus status;
     private Long calendarId;
     private Long addrBookId;
 }
