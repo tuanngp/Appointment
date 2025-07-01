@@ -51,4 +51,8 @@ public class SaCustRemind extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CALENDAR_ID", referencedColumnName = "ID")
     private SaCalendar calendar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUST_ID", referencedColumnName = "CUSTOMER_ID", insertable = false, updatable = false)
+    private SaCustomer customer;
 }

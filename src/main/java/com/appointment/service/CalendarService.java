@@ -1,16 +1,19 @@
 package com.appointment.service;
 
+import com.appointment.dto.request.GetRemindersRequest;
 import com.appointment.dto.response.ReminderResponse;
 import com.appointment.entity.SaAppointment;
 import com.appointment.entity.SaCalendar;
 import com.appointment.entity.SaCustRemind;
-import com.appointment.enums.*;
+import com.appointment.enums.AppointmentStatus;
+import com.appointment.enums.CalendarType;
+import com.appointment.enums.CustRemindStatus;
+import com.appointment.enums.ReminderType;
 import com.appointment.repository.SaAppointmentRepository;
 import com.appointment.repository.SaCalendarRepository;
 import com.appointment.repository.SaCustRemindRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +34,13 @@ public class CalendarService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    public List<ReminderResponse> getUpcomingAppointmentReminders(LocalDate specificDate, Long customerId) {
-        LocalDateTime startOfDay = specificDate.atStartOfDay();
-        LocalDateTime endOfDay = specificDate.atTime(23, 59, 59);
+    public List<ReminderResponse> getUpcomingAppointmentReminders(GetRemindersRequest request) {
+        LocalDateTime startOfDay = request.getSpecificDate().atStartOfDay();
+        LocalDateTime endOfDay = request.getSpecificDate().atTime(23, 59, 59);
 
         List<SaAppointment> appointments;
-        if (customerId != null) {
-            appointments = appointmentRepository.findByDueDateTimeBetweenAndStatusAndCustId(startOfDay, endOfDay, AppointmentStatus.A, customerId);
+        if (request.getCustomerId() != null) {
+            appointments = appointmentRepository.findByDueDateTimeBetweenAndStatusAndCustomer_CustomerId(startOfDay, endOfDay, AppointmentStatus.A, request.getCustomerId());
         } else {
             appointments = appointmentRepository.findByDueDateTimeBetweenAndStatus(startOfDay, endOfDay, AppointmentStatus.A);
         }
@@ -47,16 +50,16 @@ public class CalendarService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReminderResponse> getUpcomingBirthdays(LocalDate specificDate, Long customerId) {
+    public List<ReminderResponse> getUpcomingBirthdays(GetRemindersRequest request) {
         List<ReminderResponse> birthdayReminders = new ArrayList<>();
         List<SaCalendar> birthdaysOnDate;
 
-        if (customerId != null) {
-            birthdaysOnDate = calendarRepository.findByTypeAndEventDateMonthAndEventDateDayAndCustId(
-                    CalendarType.B, specificDate.getMonthValue(), specificDate.getDayOfMonth(), customerId);
+        if (request.getCustomerId() != null) {
+            birthdaysOnDate = calendarRepository.findByTypeAndEventDateMonthAndEventDateDayAndCustomer_CustomerId(
+                    CalendarType.B, request.getSpecificDate().getMonthValue(), request.getSpecificDate().getDayOfMonth(), request.getCustomerId());
         } else {
             birthdaysOnDate = calendarRepository.findByTypeAndEventDateMonthAndEventDateDay(
-                    CalendarType.B, specificDate.getMonthValue(), specificDate.getDayOfMonth());
+                    CalendarType.B, request.getSpecificDate().getMonthValue(), request.getSpecificDate().getDayOfMonth());
         }
 
         for (SaCalendar birthdayEntry : birthdaysOnDate) {
@@ -64,15 +67,15 @@ public class CalendarService {
             dto.setType(ReminderType.B);
             dto.setTitle("Birthday of " + (birthdayEntry.getTitle() != null ? birthdayEntry.getTitle() : "Customer"));
             dto.setDescription("Wish them a happy birthday!");
-            dto.setReminderDateTime(specificDate.atStartOfDay());
+            dto.setReminderDateTime(request.getSpecificDate().atStartOfDay());
             dto.setReferenceId(birthdayEntry.getId());
 
             if (birthdayEntry.getCustId() != null) {
-                appointmentRepository.findFirstByCustIdOrderByIdDesc(birthdayEntry.getCustId())
+                appointmentRepository.findFirstByCustomer_CustomerIdOrderByIdDesc(birthdayEntry.getCustId())
                         .ifPresentOrElse(appointment -> {
                             dto.setCustomerName(appointment.getCustFullName());
                             dto.setCustomerMobile(appointment.getContactMobile());
-                        }, () -> custRemindRepository.findFirstByCustIdOrderByIdDesc(birthdayEntry.getCustId())
+                        }, () -> custRemindRepository.findFirstByCustomer_CustomerIdOrderByIdDesc(birthdayEntry.getCustId())
                                 .ifPresent(custRemind -> dto.setCustomerName(custRemind.getCustFullName())));
             }
 
@@ -81,12 +84,12 @@ public class CalendarService {
         return birthdayReminders;
     }
 
-    public List<ReminderResponse> getUpcomingPaymentReminders(LocalDate specificDate, Long customerId) {
+    public List<ReminderResponse> getUpcomingPaymentReminders(GetRemindersRequest request) {
         List<SaCustRemind> reminders;
-        if (customerId != null) {
-            reminders = custRemindRepository.findByDueDateAndStatusAndCustId(specificDate, CustRemindStatus.A, customerId);
+        if (request.getCustomerId() != null) {
+            reminders = custRemindRepository.findByDueDateAndStatusAndCustomer_CustomerId(request.getSpecificDate(), CustRemindStatus.A, request.getCustomerId());
         } else {
-            reminders = custRemindRepository.findByDueDateAndStatus(specificDate, CustRemindStatus.A);
+            reminders = custRemindRepository.findByDueDateAndStatus(request.getSpecificDate(), CustRemindStatus.A);
         }
 
         return reminders.stream()

@@ -1,15 +1,12 @@
 package com.appointment.controller;
 
+import com.appointment.dto.request.GetRemindersRequest;
 import com.appointment.dto.response.ReminderResponse;
 import com.appointment.service.CalendarService;
-import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,27 +18,24 @@ public class ReminderController {
         this.calendarService = calendarService;
     }
 
-    @GetMapping("/appointments")
+    @PostMapping("/appointments")
     public ResponseEntity<List<ReminderResponse>> getUpcomingAppointmentReminders(
-            @RequestParam(name = "specificDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate specificDate,
-            @RequestParam(name = "customerId", required = false) Long customerId) {
-        List<ReminderResponse> reminders = calendarService.getUpcomingAppointmentReminders(specificDate, customerId);
+            @Valid @RequestBody GetRemindersRequest request) {
+        List<ReminderResponse> reminders = calendarService.getUpcomingAppointmentReminders(request);
         return ResponseEntity.ok(reminders);
     }
 
-    @GetMapping("/payments")
+    @PostMapping("/payments")
     public ResponseEntity<List<ReminderResponse>> getUpcomingPaymentReminders(
-            @RequestParam(name = "specificDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate specificDate,
-            @RequestParam(name = "customerId", required = false) Long customerId) {
-        List<ReminderResponse> reminders = calendarService.getUpcomingPaymentReminders(specificDate, customerId);
+            @Valid @RequestBody GetRemindersRequest request) {
+        List<ReminderResponse> reminders = calendarService.getUpcomingPaymentReminders(request);
         return ResponseEntity.ok(reminders);
     }
 
-    @GetMapping("/birthdays")
+    @PostMapping("/birthdays")
     public ResponseEntity<List<ReminderResponse>> getBirthdayReminders(
-            @RequestParam(name = "specificDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate specificDate,
-            @RequestParam(name = "customerId", required = false) Long customerId) {
-        List<ReminderResponse> reminders = calendarService.getUpcomingBirthdays(specificDate, customerId);
+            @Valid @RequestBody GetRemindersRequest request) {
+        List<ReminderResponse> reminders = calendarService.getUpcomingBirthdays(request);
         return ResponseEntity.ok(reminders);
     }
 }

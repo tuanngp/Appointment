@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 public interface SaDealRepository extends JpaRepository<SaDeal, Long>, JpaSpecificationExecutor<SaDeal> {
-    List<SaDeal> findByCustId(Long custId);
+    List<SaDeal> findByCustomer_CustomerId(Long customerId);
     List<SaDeal> findByDealStatus(DealStatus dealStatus);
     List<SaDeal> findByStaffId(Long staffId);
 }

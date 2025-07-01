@@ -1,11 +1,11 @@
 package com.appointment.controller;
 
 import com.appointment.dto.request.CreateAppointmentRequest;
+import com.appointment.dto.request.GetAppointmentsRequest;
+import com.appointment.dto.request.GetAppointmentHistoryRequest;
 import com.appointment.dto.request.UpdateAppointmentStatusRequest;
 import com.appointment.dto.response.AppointmentResponse;
-import com.appointment.enums.AppointmentStatus;
 import com.appointment.service.AppointmentService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,14 +26,11 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping
+    @PostMapping("/search")
     public ResponseEntity<Page<AppointmentResponse>> getAppointments(
-            @RequestParam(name = "status", required = false) AppointmentStatus status,
-            @RequestParam(name = "customerId", required = false) Long customerId,
-            @RequestParam(name = "startDate", required = false) @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
-            @RequestParam(name = "endDate", required = false) @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate,
+            @Valid @RequestBody GetAppointmentsRequest request,
             @PageableDefault(size = 10, sort = "dueDateTime") Pageable pageable) {
-        Page<AppointmentResponse> appointments = appointmentService.getAppointments(status, customerId, startDate, endDate, pageable);
+        Page<AppointmentResponse> appointments = appointmentService.getAppointments(request, pageable);
         return ResponseEntity.ok(appointments);
     }
 
@@ -44,7 +40,7 @@ public class AppointmentController {
         return new ResponseEntity<>(createdAppointment, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}/status")
+    @PostMapping("/{id}/status")
     public ResponseEntity<AppointmentResponse> updateAppointmentStatus(
             @PathVariable Long id,
             @Valid @RequestBody UpdateAppointmentStatusRequest statusRequest) {
@@ -52,11 +48,10 @@ public class AppointmentController {
         return ResponseEntity.ok(updatedAppointment);
     }
 
-    @GetMapping("/history/last30days")
+    @PostMapping("/history/last30days")
     public ResponseEntity<List<AppointmentResponse>> getAppointmentHistoryLast30Days(
-            @RequestParam(name = "customerId", required = false) Long customerId,
-            @RequestParam(name = "status", required = false) String status) {
-        List<AppointmentResponse> history = appointmentService.getAppointmentHistoryLast30Days(customerId, status);
+            @Valid @RequestBody GetAppointmentHistoryRequest request) {
+        List<AppointmentResponse> history = appointmentService.getAppointmentHistoryLast30Days(request);
         return ResponseEntity.ok(history);
     }
 }

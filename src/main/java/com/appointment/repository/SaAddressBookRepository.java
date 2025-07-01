@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 public interface SaAddressBookRepository extends JpaRepository<SaAddressBook, Long>, JpaSpecificationExecutor<SaAddressBook> {
-    List<SaAddressBook> findByCustId(Long custId);
+    List<SaAddressBook> findByCustomer_CustomerId(Long customerId);
 }

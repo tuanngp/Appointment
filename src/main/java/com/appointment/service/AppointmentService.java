@@ -1,6 +1,8 @@
 package com.appointment.service;
 
 import com.appointment.dto.request.CreateAppointmentRequest;
+import com.appointment.dto.request.GetAppointmentsRequest;
+import com.appointment.dto.request.GetAppointmentHistoryRequest;
 import com.appointment.dto.response.AppointmentResponse;
 import com.appointment.entity.SaAppointment;
 import com.appointment.entity.SaCalendar;
@@ -11,7 +13,7 @@ import com.appointment.exception.ResourceNotFoundException;
 import com.appointment.repository.SaAppointmentRepository;
 import com.appointment.repository.SaCalendarRepository;
 import jakarta.persistence.criteria.Predicate;
-import org.modelmapper.ModelMapper;
+import com.appointment.mapper.AppointmentMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,19 +30,19 @@ public class AppointmentService {
 
     private final SaAppointmentRepository appointmentRepository;
     private final SaCalendarRepository calendarRepository;
-    private final ModelMapper modelMapper;
+    private final AppointmentMapper appointmentMapper;
 
     public AppointmentService(SaAppointmentRepository appointmentRepository,
                               SaCalendarRepository calendarRepository,
-                              ModelMapper modelMapper) {
+                              AppointmentMapper appointmentMapper) {
         this.appointmentRepository = appointmentRepository;
         this.calendarRepository = calendarRepository;
-        this.modelMapper = modelMapper;
+        this.appointmentMapper = appointmentMapper;
     }
 
     @Transactional
     public AppointmentResponse createAppointment(CreateAppointmentRequest request) {
-        SaAppointment appointment = modelMapper.map(request, SaAppointment.class);
+        SaAppointment appointment = appointmentMapper.toEntity(request);
 
         appointment.setStatus(AppointmentStatus.A);
 
@@ -55,37 +57,37 @@ public class AppointmentService {
             calendar.setDescription(appointment.getNote());
             calendar.setEventDate(appointment.getDueDateTime().toLocalDate());
             calendar.setStatus(CalenderStatus.A);
-            calendar.setCustId(appointment.getCustId());
+            calendar.setCustId(appointment.getCustomer() != null ? appointment.getCustomer().getCustomerId() : null);
             calendar = calendarRepository.save(calendar);
         }
         appointment.setCalendar(calendar);
 
         SaAppointment savedAppointment = appointmentRepository.save(appointment);
-        return modelMapper.map(savedAppointment, AppointmentResponse.class);
+        return appointmentMapper.toResponse(savedAppointment);
     }
 
-    public Page<AppointmentResponse> getAppointments(AppointmentStatus status, Long customerId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+    public Page<AppointmentResponse> getAppointments(GetAppointmentsRequest request, Pageable pageable) {
         Specification<SaAppointment> spec = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (status != null && !status.toString().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("status"), status));
+            if (request.getStatus() != null && !request.getStatus().toString().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("status"), request.getStatus()));
             }
-            if (customerId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("custId"), customerId));
+            if (request.getCustomerId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), request.getCustomerId()));
             }
-            if (startDate != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dueDateTime"), startDate));
+            if (request.getStartDate() != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dueDateTime"), request.getStartDate()));
             }
-            if (endDate != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dueDateTime"), endDate));
+            if (request.getEndDate() != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dueDateTime"), request.getEndDate()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
         Page<SaAppointment> appointments = appointmentRepository.findAll(spec, pageable);
-        return appointments.map(sa -> modelMapper.map(sa, AppointmentResponse.class));
+        return appointments.map(appointmentMapper::toResponse);
     }
 
     @Transactional
@@ -98,10 +100,10 @@ public class AppointmentService {
         appointment.setUpdatedBy(1L); // Replace with actual user ID
 
         SaAppointment updatedAppointment = appointmentRepository.save(appointment);
-        return modelMapper.map(updatedAppointment, AppointmentResponse.class);
+        return appointmentMapper.toResponse(updatedAppointment);
     }
 
-    public List<AppointmentResponse> getAppointmentHistoryLast30Days(Long customerId, String status) {
+    public List<AppointmentResponse> getAppointmentHistoryLast30Days(GetAppointmentHistoryRequest request) {
         LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
         LocalDateTime now = LocalDateTime.now();
 
@@ -109,12 +111,12 @@ public class AppointmentService {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.between(root.get("dueDateTime"), thirtyDaysAgo, now));
 
-            if (customerId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("custId"), customerId));
+            if (request.getCustomerId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), request.getCustomerId()));
             }
-            if (status != null && !status.isEmpty()) {
+            if (request.getStatus() != null && !request.getStatus().isEmpty()) {
                 try {
-                    AppointmentStatus enumStatus = AppointmentStatus.valueOf(status);
+                    AppointmentStatus enumStatus = AppointmentStatus.valueOf(request.getStatus());
                     predicates.add(criteriaBuilder.equal(root.get("status"), enumStatus));
                 } catch (IllegalArgumentException e) {
                     predicates.add(criteriaBuilder.equal(root.get("status"), AppointmentStatus.A));
@@ -128,7 +130,9 @@ public class AppointmentService {
 
         List<SaAppointment> history = appointmentRepository.findAll(spec);
         return history.stream()
-                .map(sa -> modelMapper.map(sa, AppointmentResponse.class))
+                .map(appointmentMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+
 }

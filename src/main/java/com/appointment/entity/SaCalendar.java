@@ -62,4 +62,8 @@ public class SaCalendar extends BaseEntity {
 
     @Column(name = "CUST_ID")
     private Long custId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUST_ID", referencedColumnName = "CUSTOMER_ID", insertable = false, updatable = false)
+    private SaCustomer customer;
 }

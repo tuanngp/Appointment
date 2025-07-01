@@ -15,8 +15,8 @@ import com.appointment.enums.AppointmentStatus;
 public interface SaAppointmentRepository extends JpaRepository<SaAppointment, Long>, JpaSpecificationExecutor<SaAppointment> {
     List<SaAppointment> findByDueDateTimeBetweenAndStatus(LocalDateTime start, LocalDateTime end, AppointmentStatus status);
 
-    List<SaAppointment> findByDueDateTimeBetweenAndStatusAndCustId(LocalDateTime start, LocalDateTime end, AppointmentStatus status, Long custId);
-    
-    @Query("SELECT s FROM SaAppointment s WHERE s.custId = :custId ORDER BY s.id DESC LIMIT 1")
-    Optional<SaAppointment> findFirstByCustIdOrderByIdDesc(@Param("custId") Long custId);
+    List<SaAppointment> findByDueDateTimeBetweenAndStatusAndCustomer_CustomerId(LocalDateTime start, LocalDateTime end, AppointmentStatus status, Long customerId);
+
+    @Query("SELECT s FROM SaAppointment s WHERE s.customer.customerId = :customerId ORDER BY s.id DESC LIMIT 1")
+    Optional<SaAppointment> findFirstByCustomer_CustomerIdOrderByIdDesc(@Param("customerId") Long customerId);
 }

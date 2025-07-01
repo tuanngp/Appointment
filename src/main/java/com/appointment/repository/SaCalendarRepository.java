@@ -17,11 +17,11 @@ public interface SaCalendarRepository extends JpaRepository<SaCalendar, Long> {
             @Param("day") int day
     );
 
-    @Query("SELECT s FROM SaCalendar s WHERE s.type = :type AND EXTRACT(MONTH FROM s.eventDate) = :month AND EXTRACT(DAY FROM s.eventDate) = :day AND s.custId = :custId")
-    List<SaCalendar> findByTypeAndEventDateMonthAndEventDateDayAndCustId(
+    @Query("SELECT s FROM SaCalendar s WHERE s.type = :type AND EXTRACT(MONTH FROM s.eventDate) = :month AND EXTRACT(DAY FROM s.eventDate) = :day AND s.customer.customerId = :customerId")
+    List<SaCalendar> findByTypeAndEventDateMonthAndEventDateDayAndCustomer_CustomerId(
             @Param("type") CalendarType type,
             @Param("month") int month,
             @Param("day") int day,
-            @Param("custId") Long custId
+            @Param("customerId") Long customerId
     );
 }
