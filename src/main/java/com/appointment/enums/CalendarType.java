@@ -1,5 +1,7 @@
 package com.appointment.enums;
 
 public enum CalendarType {
-    BIRTHDAY, APPOINTMENT
+    B, // Birthday
+    P, // Payment
+    A // Appointment
 }

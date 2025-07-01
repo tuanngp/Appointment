@@ -1,8 +1,7 @@
 package com.appointment.enums;
 
-public enum CalenderStatus {
+public enum GeneralStatus {
     A, // Active
     I, // Inactive
-    D,  // Deleted
-    C  // Cancelled
+    D  // Deleted
 }

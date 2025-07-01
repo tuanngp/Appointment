@@ -36,8 +36,9 @@ public class SaAppointment extends BaseEntity {
     @Column(name = "DURATION_MIN")
     private Long durationMin;
 
-    @Column(name = "CUST_ID")
-    private Long custId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUST_ID", referencedColumnName = "CUSTOMER_ID")
+    private SaCustomer customer;
 
     @Column(name = "CUST_NO", length = 25)
     private String custNo;

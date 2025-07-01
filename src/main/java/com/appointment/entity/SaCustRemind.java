@@ -1,6 +1,6 @@
 package com.appointment.entity;
 
-import com.appointment.enums.CustRemindType;
+import com.appointment.enums.CustRemindStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,7 +43,7 @@ public class SaCustRemind extends BaseEntity {
     private BigDecimal paymentValue; // number(20,0)
 
     @Column(name = "STATUS", length = 1)
-    private CustRemindType status;
+    private CustRemindStatus status;
 
     @Column(name = "PRODUCT_ID")
     private Long productId;

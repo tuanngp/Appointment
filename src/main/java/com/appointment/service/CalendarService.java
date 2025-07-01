@@ -4,10 +4,7 @@ import com.appointment.dto.response.ReminderResponse;
 import com.appointment.entity.SaAppointment;
 import com.appointment.entity.SaCalendar;
 import com.appointment.entity.SaCustRemind;
-import com.appointment.enums.AppointmentStatus;
-import com.appointment.enums.CalendarType;
-import com.appointment.enums.CustRemindType;
-import com.appointment.enums.ReminderType;
+import com.appointment.enums.*;
 import com.appointment.repository.SaAppointmentRepository;
 import com.appointment.repository.SaCalendarRepository;
 import com.appointment.repository.SaCustRemindRepository;
@@ -40,9 +37,9 @@ public class CalendarService {
 
         List<SaAppointment> appointments;
         if (customerId != null) {
-            appointments = appointmentRepository.findByDueDateTimeBetweenAndStatusAndCustId(startOfDay, endOfDay, AppointmentStatus.Active, customerId);
+            appointments = appointmentRepository.findByDueDateTimeBetweenAndStatusAndCustId(startOfDay, endOfDay, AppointmentStatus.A, customerId);
         } else {
-            appointments = appointmentRepository.findByDueDateTimeBetweenAndStatus(startOfDay, endOfDay, AppointmentStatus.Active);
+            appointments = appointmentRepository.findByDueDateTimeBetweenAndStatus(startOfDay, endOfDay, AppointmentStatus.A);
         }
 
         return appointments.stream()
@@ -56,15 +53,15 @@ public class CalendarService {
 
         if (customerId != null) {
             birthdaysOnDate = calendarRepository.findByTypeAndEventDateMonthAndEventDateDayAndCustId(
-                    CalendarType.BIRTHDAY, specificDate.getMonthValue(), specificDate.getDayOfMonth(), customerId);
+                    CalendarType.B, specificDate.getMonthValue(), specificDate.getDayOfMonth(), customerId);
         } else {
             birthdaysOnDate = calendarRepository.findByTypeAndEventDateMonthAndEventDateDay(
-                    CalendarType.BIRTHDAY, specificDate.getMonthValue(), specificDate.getDayOfMonth());
+                    CalendarType.B, specificDate.getMonthValue(), specificDate.getDayOfMonth());
         }
 
         for (SaCalendar birthdayEntry : birthdaysOnDate) {
             ReminderResponse dto = new ReminderResponse();
-            dto.setType(ReminderType.Birthday);
+            dto.setType(ReminderType.B);
             dto.setTitle("Birthday of " + (birthdayEntry.getTitle() != null ? birthdayEntry.getTitle() : "Customer"));
             dto.setDescription("Wish them a happy birthday!");
             dto.setReminderDateTime(specificDate.atStartOfDay());
@@ -87,9 +84,9 @@ public class CalendarService {
     public List<ReminderResponse> getUpcomingPaymentReminders(LocalDate specificDate, Long customerId) {
         List<SaCustRemind> reminders;
         if (customerId != null) {
-            reminders = custRemindRepository.findByDueDateAndStatusAndCustId(specificDate, CustRemindType.Active, customerId);
+            reminders = custRemindRepository.findByDueDateAndStatusAndCustId(specificDate, CustRemindStatus.A, customerId);
         } else {
-            reminders = custRemindRepository.findByDueDateAndStatus(specificDate, CustRemindType.Active);
+            reminders = custRemindRepository.findByDueDateAndStatus(specificDate, CustRemindStatus.A);
         }
 
         return reminders.stream()
@@ -99,7 +96,7 @@ public class CalendarService {
 
     private ReminderResponse mapToReminderResponse(SaCustRemind custRemind) {
         ReminderResponse dto = new ReminderResponse();
-        dto.setType(ReminderType.Payment);
+        dto.setType(ReminderType.P);
         dto.setTitle("Payment Due: " + custRemind.getPaymentValue());
         dto.setDescription("Payment for product ID: " + custRemind.getProductId() + " is due.");
         dto.setReminderDateTime(custRemind.getDueDate().atStartOfDay()); // Convert LocalDate to LocalDateTime
@@ -110,7 +107,7 @@ public class CalendarService {
 
     private ReminderResponse mapToReminderResponse(SaAppointment appointment) {
         ReminderResponse dto = new ReminderResponse();
-        dto.setType(ReminderType.Appointment);
+        dto.setType(ReminderType.A);
         dto.setTitle(appointment.getTitle());
         dto.setDescription(appointment.getNote());
         dto.setReminderDateTime(appointment.getDueDateTime());

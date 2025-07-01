@@ -42,7 +42,7 @@ public class AppointmentService {
     public AppointmentResponse createAppointment(CreateAppointmentRequest request) {
         SaAppointment appointment = modelMapper.map(request, SaAppointment.class);
 
-        appointment.setStatus(AppointmentStatus.Active);
+        appointment.setStatus(AppointmentStatus.A);
 
         SaCalendar calendar = null;
         if (request.getCalendarId() != null) {
@@ -50,11 +50,11 @@ public class AppointmentService {
                     .orElseThrow(() -> new RuntimeException("Calendar not found with ID: " + request.getCalendarId()));
         } else {
             calendar = new SaCalendar();
-            calendar.setType(CalendarType.APPOINTMENT);
+            calendar.setType(CalendarType.A);
             calendar.setTitle(appointment.getTitle());
             calendar.setDescription(appointment.getNote());
             calendar.setEventDate(appointment.getDueDateTime().toLocalDate());
-            calendar.setStatus(CalenderStatus.Active);
+            calendar.setStatus(CalenderStatus.A);
             calendar.setCustId(appointment.getCustId());
             calendar = calendarRepository.save(calendar);
         }
@@ -117,10 +117,10 @@ public class AppointmentService {
                     AppointmentStatus enumStatus = AppointmentStatus.valueOf(status);
                     predicates.add(criteriaBuilder.equal(root.get("status"), enumStatus));
                 } catch (IllegalArgumentException e) {
-                    predicates.add(criteriaBuilder.equal(root.get("status"), AppointmentStatus.Active));
+                    predicates.add(criteriaBuilder.equal(root.get("status"), AppointmentStatus.A));
                 }
             } else {
-                predicates.add(criteriaBuilder.notEqual(root.get("status"), AppointmentStatus.Active));
+                predicates.add(criteriaBuilder.notEqual(root.get("status"), AppointmentStatus.A));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
