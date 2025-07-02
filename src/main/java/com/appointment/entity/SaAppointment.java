@@ -71,6 +71,7 @@ public class SaAppointment extends BaseEntity {
     private BigDecimal dealValue;
 
     @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -42,6 +42,7 @@ public class SaAddressBook {
     private Integer orderNo;
 
     @Column(name = "STATUS", length = 1)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 
     @Column(name = "CUST_ID")

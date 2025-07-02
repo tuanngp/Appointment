@@ -39,6 +39,7 @@ public class SaDealStages extends BaseEntity {
     private String description;
 
     @Column(name = "DS_STATUS", length = 2)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus dsStatus;
 
     @Column(name = "STATUS", length = 2)

@@ -53,5 +53,6 @@ public class SaProductCategory {
     private String isLeaf;
 
     @Column(name = "STATUS", length = 1)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 }

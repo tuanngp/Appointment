@@ -15,21 +15,31 @@
 						{
 							"name": "get Appointments",
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
 										"value": "*/*"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n    {\r\n        \"customerId\": \"\",\r\n        \"startDate\": \"1950-12-23 11:36:29\",\r\n        \"endDate\": \"1999-12-23 11:36:29\"\r\n    }\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/api/appointments?startDate=1950-12-23T11:36:29&endDate=1999-12-23T11:36:29",
+									"raw": "{{baseUrl}}/api/appointments/search",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"appointments"
+										"appointments",
+										"search"
 									],
 									"query": [
 										{
@@ -41,14 +51,6 @@
 											"key": "customerId",
 											"value": "-7106728",
 											"disabled": true
-										},
-										{
-											"key": "startDate",
-											"value": "1950-12-23T11:36:29"
-										},
-										{
-											"key": "endDate",
-											"value": "1999-12-23T11:36:29"
 										},
 										{
 											"key": "page",
@@ -640,6 +642,852 @@
 									],
 									"cookie": [],
 									"body": "[\n  {\n    \"type\": \"Birthday\",\n    \"title\": \"elit e\",\n    \"description\": \"minim in deserunt\",\n    \"reminderDateTime\": \"1998-09-09T09:29:46.695Z\",\n    \"customerName\": \"sed consequat\",\n    \"customerMobile\": \"voluptate incididunt dolor adipisicing quis\",\n    \"referenceId\": -90340437\n  },\n  {\n    \"type\": \"Payment\",\n    \"title\": \"cillum esse velit ullamco\",\n    \"description\": \"consectetur minim laboris\",\n    \"reminderDateTime\": \"1959-02-16T09:56:10.932Z\",\n    \"customerName\": \"veniam ullamco\",\n    \"customerMobile\": \"in iru\",\n    \"referenceId\": -89512073\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "opportunities",
+					"item": [
+						{
+							"name": "get Opportunities",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryCode\": \"laborum consequat\",\n  \"customerId\": 1,\n  \"fromDate\": \"1994-09-30\",\n  \"toDate\": \"1951-07-02\",\n  \"customerName\": \"esse culpa ut laboris\",\n  \"phoneNumber\": \"sint esse aliquip\",\n  \"dealStatus\": \"aliqua\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/search?page=0&size=100",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"search"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "(Required) "
+										},
+										{
+											"key": "size",
+											"value": "100",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryCode\": \"laborum consequat\",\n  \"customerId\": 92569688,\n  \"fromDate\": \"1994-09-30\",\n  \"toDate\": \"1951-07-02\",\n  \"customerName\": \"esse culpa ut laboris\",\n  \"phoneNumber\": \"sint esse aliquip\",\n  \"dealStatus\": \"aliqua\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/search?page=46854053&size=40458827&sort=Ut ex sunt esse,reprehenderit consectetur",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"search"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "46854053"
+												},
+												{
+													"key": "size",
+													"value": "40458827"
+												},
+												{
+													"key": "sort",
+													"value": "Ut ex sunt esse,reprehenderit consectetur"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"totalElements\": 3875300,\n  \"totalPages\": 51659328,\n  \"size\": 31920133,\n  \"content\": [\n    {\n      \"id\": -54444455,\n      \"opportunityName\": \"Ut in proident culpa dolor\",\n      \"createdDate\": \"1975-08-16T22:58:37.786Z\",\n      \"contactPhone\": \"sunt sed\",\n      \"email\": \"voluptate Ut eu\",\n      \"categoryName\": \"ullamco esse\",\n      \"customerName\": \"culpa aliqua\",\n      \"dealStatus\": \"reprehenderit voluptat\"\n    },\n    {\n      \"id\": 597579,\n      \"opportunityName\": \"ad elit adipisicing\",\n      \"createdDate\": \"1986-06-06T18:37:13.711Z\",\n      \"contactPhone\": \"occaecat eu ex aliqua\",\n      \"email\": \"eu reprehenderit proident adipisicing\",\n      \"categoryName\": \"mollit\",\n      \"customerName\": \"Duis dolore consequat elit\",\n      \"dealStatus\": \"Ut fugiat\"\n    }\n  ],\n  \"number\": 30204585,\n  \"sort\": {\n    \"empty\": true,\n    \"unsorted\": false,\n    \"sorted\": false\n  },\n  \"numberOfElements\": -98244146,\n  \"first\": false,\n  \"last\": true,\n  \"pageable\": {\n    \"offset\": 92774321,\n    \"sort\": {\n      \"empty\": true,\n      \"unsorted\": true,\n      \"sorted\": true\n    },\n    \"unpaged\": false,\n    \"paged\": false,\n    \"pageNumber\": 60981117,\n    \"pageSize\": 13468534\n  },\n  \"empty\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "get Opportunity Detail",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"opportunityId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/detail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"detail"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"opportunityId\": -22566725\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/detail",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"detail"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"opportunityInfo\": {\n    \"id\": -38196070,\n    \"opportunityName\": \"qui quis id labore sint\",\n    \"opportunityType\": \"adipisicing dolor aute\",\n    \"customerName\": \"ad eu\",\n    \"phoneNumber\": \"et\",\n    \"productName\": \"officia amet Ut ipsum consectetur\",\n    \"description\": \"pariatur con\",\n    \"dealStatus\": \"laboris anim deserunt cillum non\"\n  },\n  \"stageStatus\": {\n    \"approachDate\": \"2015-12-24T06:50:22.159Z\",\n    \"profileCreationDate\": \"1958-06-03T01:42:34.931Z\",\n    \"approvalWaitingDate\": \"2002-10-03T06:04:31.681Z\",\n    \"resultDate\": \"1969-02-21T14:30:12.988Z\"\n  },\n  \"appointmentInfo\": {\n    \"appointmentId\": -69314189,\n    \"title\": \"voluptate \",\n    \"appointmentDateTime\": \"2008-11-02T00:17:48.098Z\",\n    \"note\": \"adipisicing nisi\",\n    \"status\": \"ad nostrud sed\",\n    \"durationMin\": -70239869,\n    \"contactMobile\": \"eu amet cillum laboris\"\n  },\n  \"contractInfo\": {\n    \"contractNumber\": \"voluptate aliqua velit\",\n    \"totalFee\": 90131146.5762932,\n    \"status\": \"reprehen\",\n    \"description\": \"ullamco sun\"\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "create Opportunity",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"customerId\": 1,\n  \"interestedProductId\": 1,\n  \"opportunityName\": \"pariatur occaecat sit eu\",\n  \"phoneNumber\": \"cup\",\n  \"appointmentDateTime\": \"1951-10-15 20:54:30\",\n  \"note\": \"ea Duis pariatur\",\n  \"priority\": 1,\n  \"durationMin\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"customerId\": 32510499,\n  \"interestedProductId\": 78023914,\n  \"opportunityName\": \"pariatur occaecat sit eu\",\n  \"phoneNumber\": \"cup\",\n  \"appointmentDateTime\": \"1951-10-15T20:54:30.794Z\",\n  \"note\": \"ea Duis pariatur\",\n  \"priority\": 82533769,\n  \"durationMin\": 89342061\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"create"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 6547183,\n  \"opportunityName\": \"pariatur ea\",\n  \"createdDate\": \"2007-10-24T20:51:34.014Z\",\n  \"contactPhone\": \"enim labore fugiat sit\",\n  \"email\": \"velit incididunt\",\n  \"categoryName\": \"qui\",\n  \"customerName\": \"ut nostrud qui\",\n  \"dealStatus\": \"proident\"\n}"
+								}
+							]
+						},
+						{
+							"name": "get Opportunity Categories",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"categories"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/categories",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"categories"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"categoryId\": 13013652,\n    \"categoryCode\": \"est sit\",\n    \"parentId\": 34771846,\n    \"categoryName\": \"dolore enim proident\",\n    \"categoryShortName\": \"ut in adipisicing aliqua in\",\n    \"description\": \"est\",\n    \"icon\": \"elit\",\n    \"effectDate\": \"2015-03-03\",\n    \"expireDate\": \"1993-10-12\",\n    \"orderNo\": 18995957,\n    \"categoryLevel\": -53870024,\n    \"isLeaf\": \"dolor\",\n    \"status\": \"A\"\n  },\n  {\n    \"categoryId\": -92625697,\n    \"categoryCode\": \"non id in quis ut\",\n    \"parentId\": 88284263,\n    \"categoryName\": \"nisi in \",\n    \"categoryShortName\": \"qui non\",\n    \"description\": \"elit est\",\n    \"icon\": \"commodo\",\n    \"effectDate\": \"2020-09-14\",\n    \"expireDate\": \"1988-08-29\",\n    \"orderNo\": 17073945,\n    \"categoryLevel\": 30880060,\n    \"isLeaf\": \"esse\",\n    \"status\": \"I\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "get Opportunities By Category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryCode\": \"INSURANCE\",\n  \"customerId\": 1,\n  \"dealStatus\": \"O\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/by-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"by-category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryCode\": \"cupidatat laborum labore sint\",\n  \"customerId\": -76410267,\n  \"dealStatus\": \"tempor\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/by-category",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"by-category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 43300242,\n    \"opportunityName\": \"est\",\n    \"createdDate\": \"2003-02-03T22:22:52.794Z\",\n    \"contactPhone\": \"exercitation veniam ad\",\n    \"email\": \"veniam qui enim deserunt nostrud\",\n    \"categoryName\": \"sit voluptate aute\",\n    \"customerName\": \"irure veniam aliquip reprehenderit\",\n    \"dealStatus\": \"quis nisi eu magna commodo\"\n  },\n  {\n    \"id\": -43104275,\n    \"opportunityName\": \"voluptate\",\n    \"createdDate\": \"2013-11-06T03:09:35.483Z\",\n    \"contactPhone\": \"nostrud\",\n    \"email\": \"quis laboris Excepteur incididunt\",\n    \"categoryName\": \"ex magna amet irure\",\n    \"customerName\": \"Excepteur ea fugiat\",\n    \"dealStatus\": \"reprehenderit amet in\"\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "opportunities",
+					"item": [
+						{
+							"name": "get Opportunities",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryCode\": \"laborum consequat\",\n  \"customerId\": 1,\n  \"fromDate\": \"1994-09-30\",\n  \"toDate\": \"1951-07-02\",\n  \"customerName\": \"esse culpa ut laboris\",\n  \"phoneNumber\": \"sint esse aliquip\",\n  \"dealStatus\": \"aliqua\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/search?page=0&size=100",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"search"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "(Required) "
+										},
+										{
+											"key": "size",
+											"value": "100",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryCode\": \"laborum consequat\",\n  \"customerId\": 92569688,\n  \"fromDate\": \"1994-09-30\",\n  \"toDate\": \"1951-07-02\",\n  \"customerName\": \"esse culpa ut laboris\",\n  \"phoneNumber\": \"sint esse aliquip\",\n  \"dealStatus\": \"aliqua\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/search?page=46854053&size=40458827&sort=Ut ex sunt esse,reprehenderit consectetur",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"search"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "46854053"
+												},
+												{
+													"key": "size",
+													"value": "40458827"
+												},
+												{
+													"key": "sort",
+													"value": "Ut ex sunt esse,reprehenderit consectetur"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"totalElements\": 3875300,\n  \"totalPages\": 51659328,\n  \"size\": 31920133,\n  \"content\": [\n    {\n      \"id\": -54444455,\n      \"opportunityName\": \"Ut in proident culpa dolor\",\n      \"createdDate\": \"1975-08-16T22:58:37.786Z\",\n      \"contactPhone\": \"sunt sed\",\n      \"email\": \"voluptate Ut eu\",\n      \"categoryName\": \"ullamco esse\",\n      \"customerName\": \"culpa aliqua\",\n      \"dealStatus\": \"reprehenderit voluptat\"\n    },\n    {\n      \"id\": 597579,\n      \"opportunityName\": \"ad elit adipisicing\",\n      \"createdDate\": \"1986-06-06T18:37:13.711Z\",\n      \"contactPhone\": \"occaecat eu ex aliqua\",\n      \"email\": \"eu reprehenderit proident adipisicing\",\n      \"categoryName\": \"mollit\",\n      \"customerName\": \"Duis dolore consequat elit\",\n      \"dealStatus\": \"Ut fugiat\"\n    }\n  ],\n  \"number\": 30204585,\n  \"sort\": {\n    \"empty\": true,\n    \"unsorted\": false,\n    \"sorted\": false\n  },\n  \"numberOfElements\": -98244146,\n  \"first\": false,\n  \"last\": true,\n  \"pageable\": {\n    \"offset\": 92774321,\n    \"sort\": {\n      \"empty\": true,\n      \"unsorted\": true,\n      \"sorted\": true\n    },\n    \"unpaged\": false,\n    \"paged\": false,\n    \"pageNumber\": 60981117,\n    \"pageSize\": 13468534\n  },\n  \"empty\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "get Opportunity Detail",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"opportunityId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/detail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"detail"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"opportunityId\": -22566725\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/detail",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"detail"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"opportunityInfo\": {\n    \"id\": -38196070,\n    \"opportunityName\": \"qui quis id labore sint\",\n    \"opportunityType\": \"adipisicing dolor aute\",\n    \"customerName\": \"ad eu\",\n    \"phoneNumber\": \"et\",\n    \"productName\": \"officia amet Ut ipsum consectetur\",\n    \"description\": \"pariatur con\",\n    \"dealStatus\": \"laboris anim deserunt cillum non\"\n  },\n  \"stageStatus\": {\n    \"approachDate\": \"2015-12-24T06:50:22.159Z\",\n    \"profileCreationDate\": \"1958-06-03T01:42:34.931Z\",\n    \"approvalWaitingDate\": \"2002-10-03T06:04:31.681Z\",\n    \"resultDate\": \"1969-02-21T14:30:12.988Z\"\n  },\n  \"appointmentInfo\": {\n    \"appointmentId\": -69314189,\n    \"title\": \"voluptate \",\n    \"appointmentDateTime\": \"2008-11-02T00:17:48.098Z\",\n    \"note\": \"adipisicing nisi\",\n    \"status\": \"ad nostrud sed\",\n    \"durationMin\": -70239869,\n    \"contactMobile\": \"eu amet cillum laboris\"\n  },\n  \"contractInfo\": {\n    \"contractNumber\": \"voluptate aliqua velit\",\n    \"totalFee\": 90131146.5762932,\n    \"status\": \"reprehen\",\n    \"description\": \"ullamco sun\"\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "create Opportunity",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"customerId\": 1,\n  \"interestedProductId\": 1,\n  \"opportunityName\": \"pariatur occaecat sit eu\",\n  \"phoneNumber\": \"cup\",\n  \"appointmentDateTime\": \"1951-10-15 20:54:30\",\n  \"note\": \"ea Duis pariatur\",\n  \"priority\": 1,\n  \"durationMin\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"customerId\": 32510499,\n  \"interestedProductId\": 78023914,\n  \"opportunityName\": \"pariatur occaecat sit eu\",\n  \"phoneNumber\": \"cup\",\n  \"appointmentDateTime\": \"1951-10-15T20:54:30.794Z\",\n  \"note\": \"ea Duis pariatur\",\n  \"priority\": 82533769,\n  \"durationMin\": 89342061\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"create"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 6547183,\n  \"opportunityName\": \"pariatur ea\",\n  \"createdDate\": \"2007-10-24T20:51:34.014Z\",\n  \"contactPhone\": \"enim labore fugiat sit\",\n  \"email\": \"velit incididunt\",\n  \"categoryName\": \"qui\",\n  \"customerName\": \"ut nostrud qui\",\n  \"dealStatus\": \"proident\"\n}"
+								}
+							]
+						},
+						{
+							"name": "get Opportunity Categories",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"categories"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/categories",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"categories"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"categoryId\": 13013652,\n    \"categoryCode\": \"est sit\",\n    \"parentId\": 34771846,\n    \"categoryName\": \"dolore enim proident\",\n    \"categoryShortName\": \"ut in adipisicing aliqua in\",\n    \"description\": \"est\",\n    \"icon\": \"elit\",\n    \"effectDate\": \"2015-03-03\",\n    \"expireDate\": \"1993-10-12\",\n    \"orderNo\": 18995957,\n    \"categoryLevel\": -53870024,\n    \"isLeaf\": \"dolor\",\n    \"status\": \"A\"\n  },\n  {\n    \"categoryId\": -92625697,\n    \"categoryCode\": \"non id in quis ut\",\n    \"parentId\": 88284263,\n    \"categoryName\": \"nisi in \",\n    \"categoryShortName\": \"qui non\",\n    \"description\": \"elit est\",\n    \"icon\": \"commodo\",\n    \"effectDate\": \"2020-09-14\",\n    \"expireDate\": \"1988-08-29\",\n    \"orderNo\": 17073945,\n    \"categoryLevel\": 30880060,\n    \"isLeaf\": \"esse\",\n    \"status\": \"I\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "get Opportunities By Category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryCode\": \"INSURANCE\",\n  \"customerId\": 1,\n  \"dealStatus\": \"O\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/opportunities/by-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"by-category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"categoryCode\": \"cupidatat laborum labore sint\",\n  \"customerId\": -76410267,\n  \"dealStatus\": \"tempor\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/opportunities/by-category",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"opportunities",
+												"by-category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 43300242,\n    \"opportunityName\": \"est\",\n    \"createdDate\": \"2003-02-03T22:22:52.794Z\",\n    \"contactPhone\": \"exercitation veniam ad\",\n    \"email\": \"veniam qui enim deserunt nostrud\",\n    \"categoryName\": \"sit voluptate aute\",\n    \"customerName\": \"irure veniam aliquip reprehenderit\",\n    \"dealStatus\": \"quis nisi eu magna commodo\"\n  },\n  {\n    \"id\": -43104275,\n    \"opportunityName\": \"voluptate\",\n    \"createdDate\": \"2013-11-06T03:09:35.483Z\",\n    \"contactPhone\": \"nostrud\",\n    \"email\": \"quis laboris Excepteur incididunt\",\n    \"categoryName\": \"ex magna amet irure\",\n    \"customerName\": \"Excepteur ea fugiat\",\n    \"dealStatus\": \"reprehenderit amet in\"\n  }\n]"
 								}
 							]
 						}

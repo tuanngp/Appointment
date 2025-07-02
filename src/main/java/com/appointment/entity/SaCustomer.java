@@ -243,6 +243,7 @@ public class SaCustomer {
     private String registerBy;
 
     @Column(name = "STATUS", length = 1)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 
     @Column(name = "ASSETS_IDS", length = 100)

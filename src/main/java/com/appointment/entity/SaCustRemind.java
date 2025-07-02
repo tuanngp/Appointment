@@ -43,6 +43,7 @@ public class SaCustRemind extends BaseEntity {
     private BigDecimal paymentValue; // number(20,0)
 
     @Column(name = "STATUS", length = 1)
+    @Enumerated(EnumType.STRING)
     private CustRemindStatus status;
 
     @Column(name = "PRODUCT_ID")

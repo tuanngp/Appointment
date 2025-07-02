@@ -28,6 +28,7 @@ public class SaPipelineStages extends BaseEntity {
     private Long position;
 
     @Column(name = "STATUS", length = 2)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 
     // Relationships

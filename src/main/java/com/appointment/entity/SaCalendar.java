@@ -58,6 +58,7 @@ public class SaCalendar extends BaseEntity {
     private String followedStaffNo;
 
     @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
     private CalenderStatus status;
 
     @Column(name = "CUST_ID")

@@ -1,5 +1,6 @@
 package com.appointment.entity;
 
+import com.appointment.enums.ProductStatus;
 import com.appointment.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -55,7 +56,8 @@ public class SaProduct {
     private LocalDateTime updatedAt;
 
     @Column(name = "STATUS", length = 45)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     // Relationship with SaProductCategory
     @ManyToOne(fetch = FetchType.LAZY)

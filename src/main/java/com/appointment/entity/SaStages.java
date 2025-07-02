@@ -33,5 +33,6 @@ public class SaStages extends BaseEntity {
     private String description;
 
     @Column(name = "STATUS", length = 2)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 }

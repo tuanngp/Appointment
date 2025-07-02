@@ -19,4 +19,6 @@ public interface SaAppointmentRepository extends JpaRepository<SaAppointment, Lo
 
     @Query("SELECT s FROM SaAppointment s WHERE s.customer.customerId = :customerId ORDER BY s.id DESC LIMIT 1")
     Optional<SaAppointment> findFirstByCustomer_CustomerIdOrderByIdDesc(@Param("customerId") Long customerId);
+
+    List<SaAppointment> findByDealId(Long dealId);
 }

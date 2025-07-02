@@ -31,6 +31,7 @@ public class SaPipelines extends BaseEntity {
     private Long productId;
 
     @Column(name = "STATUS", length = 2)
+    @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 
     // Relationship with SaProduct
