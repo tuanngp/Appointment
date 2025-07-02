@@ -31,7 +31,7 @@ public class OpportunityMapper {
         deal.setCustCode(customer != null ? customer.getCustomerNo() : null);
         deal.setContactFullName(customer != null ? customer.getFullName() : null);
         deal.setStartDate(LocalDate.now());
-        deal.setDealStatus(DealStatus.O); // Open
+        deal.setDealStatus(DealStatus.W); // Won
         deal.setStatus(GeneralStatus.A); // Active
         deal.setDescription(request.getNote());
         deal.setCustomer(customer);
