@@ -6,12 +6,14 @@ import com.appointment.dto.request.GetAppointmentHistoryRequest;
 import com.appointment.dto.response.AppointmentResponse;
 import com.appointment.entity.SaAppointment;
 import com.appointment.entity.SaCalendar;
+import com.appointment.entity.SaAddressBook;
 import com.appointment.enums.AppointmentStatus;
 import com.appointment.enums.CalendarType;
 import com.appointment.enums.CalenderStatus;
 import com.appointment.exception.ResourceNotFoundException;
 import com.appointment.repository.SaAppointmentRepository;
 import com.appointment.repository.SaCalendarRepository;
+import com.appointment.repository.SaAddressBookRepository;
 import jakarta.persistence.criteria.Predicate;
 import com.appointment.mapper.AppointmentMapper;
 import org.springframework.data.domain.Page;
@@ -30,13 +32,16 @@ public class AppointmentService {
 
     private final SaAppointmentRepository appointmentRepository;
     private final SaCalendarRepository calendarRepository;
+    private final SaAddressBookRepository addressBookRepository;
     private final AppointmentMapper appointmentMapper;
 
     public AppointmentService(SaAppointmentRepository appointmentRepository,
                               SaCalendarRepository calendarRepository,
+                              SaAddressBookRepository addressBookRepository,
                               AppointmentMapper appointmentMapper) {
         this.appointmentRepository = appointmentRepository;
         this.calendarRepository = calendarRepository;
+        this.addressBookRepository = addressBookRepository;
         this.appointmentMapper = appointmentMapper;
     }
 
@@ -63,7 +68,7 @@ public class AppointmentService {
         appointment.setCalendar(calendar);
 
         SaAppointment savedAppointment = appointmentRepository.save(appointment);
-        return appointmentMapper.toResponse(savedAppointment);
+        return createAppointmentResponseWithAddress(savedAppointment);
     }
 
     public Page<AppointmentResponse> getAppointments(GetAppointmentsRequest request, Pageable pageable) {
@@ -87,7 +92,7 @@ public class AppointmentService {
         };
 
         Page<SaAppointment> appointments = appointmentRepository.findAll(spec, pageable);
-        return appointments.map(appointmentMapper::toResponse);
+        return appointments.map(this::createAppointmentResponseWithAddress);
     }
 
     @Transactional
@@ -100,7 +105,7 @@ public class AppointmentService {
         appointment.setUpdatedBy(1L); // Replace with actual user ID
 
         SaAppointment updatedAppointment = appointmentRepository.save(appointment);
-        return appointmentMapper.toResponse(updatedAppointment);
+        return createAppointmentResponseWithAddress(updatedAppointment);
     }
 
     public List<AppointmentResponse> getAppointmentHistoryLast30Days(GetAppointmentHistoryRequest request) {
@@ -130,9 +135,52 @@ public class AppointmentService {
 
         List<SaAppointment> history = appointmentRepository.findAll(spec);
         return history.stream()
-                .map(appointmentMapper::toResponse)
+                .map(this::createAppointmentResponseWithAddress)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Tạo AppointmentResponse với thông tin địa chỉ customer
+     */
+    private AppointmentResponse createAppointmentResponseWithAddress(SaAppointment appointment) {
+        AppointmentResponse response = appointmentMapper.toResponse(appointment);
+
+        // Lấy thông tin địa chỉ customer
+        SaAddressBook addressBook = getCustomerAddress(
+            appointment.getCustomer() != null ? appointment.getCustomer().getCustomerId() : null,
+            appointment.getAddrBookId()
+        );
+
+        // Set thông tin địa chỉ vào response
+        if (addressBook != null) {
+            response.setAddressTitle(addressBook.getTitle());
+            response.setAddressLine(addressBook.getAddressLine());
+            response.setFullAddress(addressBook.getFullAddress());
+            response.setLongitude(addressBook.getLongitude());
+            response.setLatitude(addressBook.getLatitude());
+        }
+
+        return response;
+    }
+
+    /**
+     * Lấy thông tin địa chỉ customer
+     * @param custId ID của customer
+     * @param addrBookId ID của địa chỉ cụ thể (có thể null)
+     * @return SaAddressBook hoặc null nếu không tìm thấy
+     */
+    private SaAddressBook getCustomerAddress(Long custId, Long addrBookId) {
+        // Nếu có addrBookId cụ thể, lấy theo ID đó
+        if (addrBookId != null) {
+            return addressBookRepository.findById(addrBookId).orElse(null);
+        }
+
+        // Nếu không có addrBookId nhưng có custId, lấy địa chỉ mặc định
+        if (custId != null) {
+            return addressBookRepository.findFirstByCustomer_CustomerIdOrderByOrderNoAsc(custId).orElse(null);
+        }
+
+        return null;
+    }
 
 }
