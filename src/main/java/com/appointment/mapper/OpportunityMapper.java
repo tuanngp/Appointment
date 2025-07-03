@@ -120,7 +120,7 @@ public class OpportunityMapper {
         // Set opportunity info
         response.setOpportunityInfo(toOpportunityInfo(deal));
 
-        // Set stage status
+        // Set stage status with enhanced pipeline information
         response.setStageStatus(toOpportunityStageStatus(dealStages));
 
         // Set appointment info
@@ -171,6 +171,7 @@ public class OpportunityMapper {
 
         OpportunityStageStatus stageStatus = new OpportunityStageStatus();
 
+        // Legacy mapping for backward compatibility
         for (SaDealStages stage : dealStages) {
             if (stage.getStage() != null) {
                 String stageName = stage.getStage().getName();
@@ -180,13 +181,46 @@ public class OpportunityMapper {
                     stageStatus.setApproachDate(beginDate);
                 } else if ("Tạo hồ sơ".equals(stageName)) {
                     stageStatus.setProfileCreationDate(beginDate);
-                } else if ("Chờ duyệt".equals(stageName)) {
+                } else if ("Chờ phê duyệt".equals(stageName)) {
                     stageStatus.setApprovalWaitingDate(beginDate);
-                } else if ("Kết quả hồ sơ".equals(stageName)) {
+                } else if ("Hoàn thành".equals(stageName)) {
                     stageStatus.setResultDate(beginDate);
                 }
             }
         }
+
+        // New pipeline-based mapping
+        if (!dealStages.isEmpty()) {
+            SaDealStages currentStage = dealStages.get(dealStages.size() - 1); // Latest stage
+            if (currentStage.getStage() != null) {
+                stageStatus.setCurrentStageName(currentStage.getStage().getName());
+                stageStatus.setCurrentStageId(currentStage.getStageId());
+            }
+
+            if (currentStage.getPipeline() != null) {
+                stageStatus.setPipelineName(currentStage.getPipeline().getName());
+                stageStatus.setPipelineId(currentStage.getPipelineId());
+            }
+        }
+
+        // Create stage history
+        java.util.List<OpportunityStageStatus.StageHistoryItem> stageHistory = new java.util.ArrayList<>();
+        for (SaDealStages stage : dealStages) {
+            OpportunityStageStatus.StageHistoryItem historyItem = new OpportunityStageStatus.StageHistoryItem();
+            historyItem.setStageId(stage.getStageId());
+            historyItem.setDescription(stage.getDescription());
+            historyItem.setBeginDate(stage.getBeginDate());
+            historyItem.setEndDate(stage.getEndDate());
+            historyItem.setDurationMinutes(stage.getDuration());
+            historyItem.setActive(stage.getEndDate() == null); // Active if no end date
+
+            if (stage.getStage() != null) {
+                historyItem.setStageName(stage.getStage().getName());
+            }
+
+            stageHistory.add(historyItem);
+        }
+        stageStatus.setStageHistory(stageHistory);
 
         return stageStatus;
     }

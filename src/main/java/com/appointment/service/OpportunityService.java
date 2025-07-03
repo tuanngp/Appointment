@@ -31,6 +31,7 @@ public class OpportunityService {
     private final SaProductCategoryRepository productCategoryRepository;
     private final SaDealStagesRepository dealStagesRepository;
     private final SaAppointmentRepository appointmentRepository;
+    private final PipelineService pipelineService;
     private final OpportunityMapper opportunityMapper;
 
     public OpportunityService(SaDealRepository dealRepository,
@@ -39,6 +40,7 @@ public class OpportunityService {
                             SaProductCategoryRepository productCategoryRepository,
                             SaDealStagesRepository dealStagesRepository,
                             SaAppointmentRepository appointmentRepository,
+                            PipelineService pipelineService,
                             OpportunityMapper opportunityMapper) {
         this.dealRepository = dealRepository;
         this.customerRepository = customerRepository;
@@ -46,6 +48,7 @@ public class OpportunityService {
         this.productCategoryRepository = productCategoryRepository;
         this.dealStagesRepository = dealStagesRepository;
         this.appointmentRepository = appointmentRepository;
+        this.pipelineService = pipelineService;
         this.opportunityMapper = opportunityMapper;
     }
 
@@ -62,11 +65,38 @@ public class OpportunityService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + request.getInterestedProductId()));
         log.info("Product found: {}", product);
 
+        // Get pipeline for the product
+        List<SaPipelines> pipelines = pipelineService.getPipelinesByProductId(product.getId());
+        SaPipelines pipeline = pipelines.isEmpty() ? null : pipelines.get(0);
+
         // Create SaDeal
         SaDeal deal = opportunityMapper.toSaDeal(request, customer, product);
+        if (pipeline != null) {
+            deal.setPipelineId(pipeline.getId());
+            // Set current stage to first stage of pipeline
+            SaPipelineStages firstStage = pipelineService.getFirstStageOfPipeline(pipeline.getId());
+            deal.setCurrentStageId(firstStage.getStageId());
+        }
         deal.setCreatedAt(LocalDateTime.now());
         deal.setCreatedBy(1L); // Replace with actual user ID from security context
         deal = dealRepository.save(deal);
+
+        // Create initial deal stage record
+        if (pipeline != null) {
+            SaPipelineStages firstStage = pipelineService.getFirstStageOfPipeline(pipeline.getId());
+            SaDealStages dealStage = new SaDealStages();
+            dealStage.setDealId(deal.getId());
+            dealStage.setPipelineId(pipeline.getId());
+            dealStage.setStageId(firstStage.getStageId());
+            dealStage.setPsId(firstStage.getId());
+            dealStage.setBeginDate(LocalDateTime.now());
+            dealStage.setDescription("Bắt đầu giai đoạn đầu tiên");
+            dealStage.setDsStatus(GeneralStatus.A);
+            dealStage.setStatus(GeneralStatus.A);
+            dealStage.setCreatedAt(LocalDateTime.now());
+            dealStage.setCreatedBy(1L);
+            dealStagesRepository.save(dealStage);
+        }
 
         // Create SaAppointment if appointment datetime is provided
         if (request.getAppointmentDateTime() != null) {
@@ -75,10 +105,6 @@ public class OpportunityService {
             appointment.setCreatedBy(1L); // Replace with actual user ID
             appointmentRepository.save(appointment);
         }
-
-        // Create initial deal stage (Tiếp cận)
-        // Note: This assumes stage with name "Tiếp cận" exists in SA_STAGES table
-        // You may need to create these stages first or handle differently
 
         return opportunityMapper.toOpportunityListResponse(deal);
     }
@@ -216,5 +242,61 @@ public class OpportunityService {
     public List<SaProductCategory> getOpportunityCategories() {
         List<String> opportunityCategoryCodes = List.of("INSURANCE", "CARD_SERVICE", "SAVINGS", "LOAN");
         return productCategoryRepository.findByCategoryCodeInAndStatus(opportunityCategoryCodes, GeneralStatus.A);
+    }
+
+    @Transactional
+    public void advanceOpportunityStage(Long opportunityId, String description) {
+        // Get deal
+        SaDeal deal = dealRepository.findById(opportunityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Opportunity not found with ID: " + opportunityId));
+
+        if (deal.getPipelineId() == null || deal.getCurrentStageId() == null) {
+            throw new IllegalStateException("Deal does not have pipeline or current stage set");
+        }
+
+        // Get current stage position
+        SaPipelineStages currentPipelineStage = pipelineService.getPipelineStages(deal.getPipelineId())
+                .stream()
+                .filter(ps -> ps.getStageId().equals(deal.getCurrentStageId()))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Current stage not found in pipeline"));
+
+        // Get next stage
+        SaPipelineStages nextStage = pipelineService.getNextStageInPipeline(deal.getPipelineId(), currentPipelineStage.getPosition());
+
+        if (nextStage == null) {
+            throw new IllegalStateException("Deal is already at the final stage");
+        }
+
+        // End current stage
+        SaDealStages currentDealStage = dealStagesRepository.findByDealIdAndStageId(deal.getId(), deal.getCurrentStageId())
+                .orElse(null);
+        if (currentDealStage != null && currentDealStage.getEndDate() == null) {
+            currentDealStage.setEndDate(LocalDateTime.now());
+            currentDealStage.setDuration(java.time.Duration.between(currentDealStage.getBeginDate(), currentDealStage.getEndDate()).toMinutes());
+            currentDealStage.setUpdatedAt(LocalDateTime.now());
+            currentDealStage.setUpdatedBy(1L);
+            dealStagesRepository.save(currentDealStage);
+        }
+
+        // Create new stage record
+        SaDealStages newDealStage = new SaDealStages();
+        newDealStage.setDealId(deal.getId());
+        newDealStage.setPipelineId(deal.getPipelineId());
+        newDealStage.setStageId(nextStage.getStageId());
+        newDealStage.setPsId(nextStage.getId());
+        newDealStage.setBeginDate(LocalDateTime.now());
+        newDealStage.setDescription(description != null ? description : "Chuyển sang giai đoạn tiếp theo");
+        newDealStage.setDsStatus(GeneralStatus.A);
+        newDealStage.setStatus(GeneralStatus.A);
+        newDealStage.setCreatedAt(LocalDateTime.now());
+        newDealStage.setCreatedBy(1L);
+        dealStagesRepository.save(newDealStage);
+
+        // Update deal current stage
+        deal.setCurrentStageId(nextStage.getStageId());
+        deal.setUpdatedAt(LocalDateTime.now());
+        deal.setUpdatedBy(1L);
+        dealRepository.save(deal);
     }
 }

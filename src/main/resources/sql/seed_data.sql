@@ -149,6 +149,44 @@ VALUES (1, '123 Nguyễn Văn Cừ', 1, '123 Nguyễn Văn Cừ, Phường Nguy�
        (3, '789 Hai Bà Trưng', 3, '789 Hai Bà Trưng, Phường Tân Định, Quận 1, TP.HCM', 10777000, 106696000, 1, 3, 'A',
         'Địa chỉ nhà');
 
+-- Seed data for SA_STAGES (Sales Stages)
+INSERT INTO sa_stages (id, created_at, created_by, deleted_at, deleted_by, updated_at, updated_by, name, position, probability, description, status)
+VALUES (1, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Tiếp cận', 1, 10.00, 'Giai đoạn tiếp cận khách hàng', 'A'),
+       (2, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Tạo hồ sơ', 2, 30.00, 'Giai đoạn tạo hồ sơ khách hàng', 'A'),
+       (3, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Chờ phê duyệt', 3, 60.00, 'Giai đoạn chờ phê duyệt', 'A'),
+       (4, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Hoàn thành', 4, 100.00, 'Giai đoạn hoàn thành deal', 'A');
+
+-- Seed data for SA_PIPELINES (Sales Pipelines)
+INSERT INTO sa_pipelines (id, created_at, created_by, deleted_at, deleted_by, updated_at, updated_by, name, position, description, product_id, status)
+VALUES (1, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Pipeline Bảo hiểm', 1, 'Quy trình bán hàng cho sản phẩm bảo hiểm', 1, 'A'),
+       (2, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Pipeline Thẻ tín dụng', 2, 'Quy trình bán hàng cho sản phẩm thẻ tín dụng', 3, 'A'),
+       (3, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Pipeline Tiết kiệm', 3, 'Quy trình bán hàng cho sản phẩm tiết kiệm', 5, 'A'),
+       (4, '2024-01-01 00:00:00', 1, null, null, '2024-01-01 00:00:00', 1, 'Pipeline Vay', 4, 'Quy trình bán hàng cho sản phẩm vay', 7, 'A');
+
+-- Seed data for SA_PIPELINE_STAGES (Pipeline Stage Mapping)
+INSERT INTO sa_pipeline_stages (id, created_at, created_by, updated_at, updated_by, pipeline_id, stage_id, position, status)
+VALUES
+-- Pipeline Bảo hiểm (ID: 1)
+(1, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 1, 1, 1, 'A'),
+(2, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 1, 2, 2, 'A'),
+(3, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 1, 3, 3, 'A'),
+(4, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 1, 4, 4, 'A'),
+-- Pipeline Thẻ tín dụng (ID: 2)
+(5, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 2, 1, 1, 'A'),
+(6, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 2, 2, 2, 'A'),
+(7, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 2, 3, 3, 'A'),
+(8, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 2, 4, 4, 'A'),
+-- Pipeline Tiết kiệm (ID: 3)
+(9, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 3, 1, 1, 'A'),
+(10, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 3, 2, 2, 'A'),
+(11, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 3, 3, 3, 'A'),
+(12, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 3, 4, 4, 'A'),
+-- Pipeline Vay (ID: 4)
+(13, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 4, 1, 1, 'A'),
+(14, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 4, 2, 2, 'A'),
+(15, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 4, 3, 3, 'A'),
+(16, '2024-01-01 00:00:00', 1, '2024-01-01 00:00:00', 1, 4, 4, 4, 'A');
+
 -- Seed data for SA_DEAL (Opportunities)
 INSERT INTO sa_deal (id, created_at, created_by, deleted_at, deleted_by, updated_at, updated_by, branch_code, branch_id,
                      branch_name, close_date, contact_full_name, contact_id, current_stage_id, cust_code,

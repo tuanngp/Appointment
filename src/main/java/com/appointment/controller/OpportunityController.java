@@ -58,4 +58,15 @@ public class OpportunityController {
         List<SaProductCategory> categories = opportunityService.getOpportunityCategories();
         return ResponseEntity.ok(categories);
     }
+
+    @PostMapping("/advance-stage")
+    public ResponseEntity<String> advanceOpportunityStage(
+            @Valid @RequestBody AdvanceOpportunityStageRequest request) {
+        try {
+            opportunityService.advanceOpportunityStage(request.getOpportunityId(), request.getDescription());
+            return ResponseEntity.ok("Opportunity stage advanced successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
 }
